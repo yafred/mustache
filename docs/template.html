@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>title</title>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+  <script>
+    const pages = new Map([
+      ["page1", { content: [{ description: "Toto1" }, { description: "Titi1" }] }],
+      ["page2", { content: [{ description: "Toto2" }, { description: "Titi2" }] }],
+      ["page3", { content: [{ description: "Toto3" }, { description: "Titi3" }] }],
+    ]);
+  </script>
+  <script id="page-template" type="x-tmpl-mustache">
+    <ul>
+      {{#content}}
+        <li>{{description}}</li>
+      {{/content}}
+    </ul>
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const page = urlParams.get('page');
+
+      const template = document.getElementById('page-template').innerHTML;
+      const rendered = Mustache.render(template, pages.get(page));
+      document.getElementById('content').innerHTML = rendered;
+    });
+  </script>
+</head>
+
+<body>
+  <header><a href="index.html">Back</a></header>
+  <main id="content">
+  </main>
+</body>
+
+</html>
